@@ -121,15 +121,19 @@ def main():
 
     #       Xmin Ymin Xmax Ymax
     box_1 = [100, 100, 200, 200]
+    box_2 = [300, 300, 400, 400]
+
     old_box_1 = [None, None, None, None]
-    box_2 = [300, 100, 400, 200]
     old_box_2 = [None, None, None, None]
+
     box_1_color = (0, 255, 0)
     box_2_color = (255, 0, 0)
 
-    img = np.zeros((512, 512, 3), np.uint8)
     box_1_move = False
     box_2_move = False
+
+    img = np.zeros((512, 512, 3), np.uint8)
+
     param = {
         "img": img,
         "box_1": box_1,
@@ -144,7 +148,7 @@ def main():
     cv2.namedWindow("img")
     cv2.setMouseCallback("img", mouse_callback, param)
 
-    #                   Xmin      Ymin        Xmax      Ymax
+    # First rectangles:
     cv2.rectangle(img, (box_1[0], box_1[1]), (box_1[2], box_1[3]), (0, 255, 0), 3)
     cv2.rectangle(img, (box_2[0], box_2[1]), (box_2[2], box_2[3]), (255, 0, 0), 3)
 
