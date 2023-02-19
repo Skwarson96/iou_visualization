@@ -58,6 +58,22 @@ def mouse_callback(event, x, y, flags, param):
         param["box_2_move"] = False
 
 
+def iou_calculate(img, box_1, box_2):
+
+    ground_truth_bbox = torch.tensor([box_1], dtype=torch.float)
+    prediction_bbox = torch.tensor([box_2],
+                                   dtype=torch.float)
+
+    iou = ops.box_iou(ground_truth_bbox, prediction_bbox)
+
+    cv2.rectangle(img, (0, img.shape[0]-30),
+                  (120, img.shape[0]), (0, 0, 0), -1)
+
+
+    cv2.putText(img=img, text=f'IOU : {str(np.round(iou.numpy()[0][0], 5))}', org=(0, img.shape[0]-10),
+                fontFace=cv2.FONT_HERSHEY_TRIPLEX, fontScale=0.5, color=(0, 255, 255),
+                thickness=1)
+
 def main():
     print("main")
 
@@ -85,19 +101,13 @@ def main():
     # display the window
     while True:
         cv2.imshow("img", img)
+        iou_calculate(param["img"], param["box_1"], param["box_2"])
         if cv2.waitKey(10) == 27:
             break
 
     cv2.destroyAllWindows()
 
-    # # Bounding box coordinates.
-    # ground_truth_bbox = torch.tensor([[1202, 123, 1650, 868]], dtype=torch.float)
-    # prediction_bbox = torch.tensor([[1162.0001, 92.0021, 1619.9832, 694.0033]],
-    #                                dtype=torch.float)
-    #
-    # # Get iou.
-    # iou = ops.box_iou(ground_truth_bbox, prediction_bbox)
-    # print('IOU : ', iou.numpy()[0][0])
+
 
 if __name__ == '__main__':
     main()
