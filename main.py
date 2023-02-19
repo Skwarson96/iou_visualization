@@ -38,20 +38,30 @@ def mouse_callback(event, x, y, flags, param):
             param["box_2_move"]=True
 
     elif event == cv2.EVENT_MOUSEMOVE and param["box_1_move"] is True:
-        box_nr = "1"
-        color = (0, 255, 0)
+        x_border = int((param["box_1"][2]-param["box_1"][0])/2)
+        y_border = int((param["box_1"][3]-param["box_1"][1])/2)
 
-        move_rectangle(x, y, param, box_nr, color)
-        cv2.rectangle(param["img"], (int(param["box_2"][0]), int(param["box_2"][1])),
-                      (int(param["box_2"][2]), int(param["box_2"][3])), (255, 0, 0), 3)
+        if x_border<x<param["img"].shape[1]-x_border and y_border<y<param["img"].shape[0]-y_border:
+
+            box_nr = "1"
+            color = (0, 255, 0)
+
+            move_rectangle(x, y, param, box_nr, color)
+            cv2.rectangle(param["img"], (int(param["box_2"][0]), int(param["box_2"][1])),
+                          (int(param["box_2"][2]), int(param["box_2"][3])), (255, 0, 0), 3)
 
     elif event == cv2.EVENT_MOUSEMOVE and param["box_2_move"] is True:
-        box_nr = "2"
-        color = (255, 0, 0)
+        x_border = int((param["box_1"][2]-param["box_1"][0])/2)
+        y_border = int((param["box_1"][3]-param["box_1"][1])/2)
 
-        move_rectangle(x, y, param, box_nr, color)
-        cv2.rectangle(param["img"], (int(param["box_1"][0]), int(param["box_1"][1])),
-                      (int(param["box_1"][2]), int(param["box_1"][3])), (0, 255, 0), 3)
+        if x_border<x<param["img"].shape[1]-x_border and y_border<y<param["img"].shape[0]-y_border:
+
+            box_nr = "2"
+            color = (255, 0, 0)
+
+            move_rectangle(x, y, param, box_nr, color)
+            cv2.rectangle(param["img"], (int(param["box_1"][0]), int(param["box_1"][1])),
+                          (int(param["box_1"][2]), int(param["box_1"][3])), (0, 255, 0), 3)
 
     elif event == cv2.EVENT_LBUTTONUP:
         param["box_1_move"] = False
@@ -75,9 +85,6 @@ def iou_calculate(img, box_1, box_2):
                 thickness=1)
 
 def main():
-    print("main")
-
-    # Create a black image
 
     #       Xmin Ymin Xmax Ymax
     box_1 = [100, 100, 200, 200]
